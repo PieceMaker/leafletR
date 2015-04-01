@@ -38,7 +38,7 @@ dfToGeoJSONConsole <- function(data, name, lat.lon) {
 		}
 
 		# geometry
-		json <- append(json, '"geometry": {')
+		json <- append(json, '"geometry":{')
 		json <- append(json, '"type":"Point",')
 		json <- append(json, paste0('"coordinates":[', data[f,lat.lon[2]], ',', data[f,lat.lon[1]], ']'))
 		json <- append(json, '}')
