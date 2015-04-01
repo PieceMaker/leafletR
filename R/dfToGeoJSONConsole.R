@@ -1,4 +1,4 @@
-dfToGeoJSONConsole <- function(data, name, lat.lon) {
+dfToGeoJSONConsole <- function(data, lat.lon) {
 	if(length(lat.lon)!=2) stop("'lat.lon' must be a vector of two: c(latitude, longitude)")
 	if(any(!is.numeric(lat.lon))) {
 		if(!any(names(data)==lat.lon[1])) stop('Longitude column not found')

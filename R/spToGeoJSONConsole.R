@@ -1,4 +1,4 @@
-spToGeoJSONConsole <- function(data, class, name) {
+spToGeoJSONConsole <- function(data) {
 	if(!requireNamespace('sp', quietly=TRUE)) stop("'sp' package required for spatial object conversion")
 	if(requireNamespace('rgdal', quietly=TRUE)) data <- sp::spTransform(data, sp::CRS('+proj=longlat +ellps=WGS84'))
 

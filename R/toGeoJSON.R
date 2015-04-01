@@ -11,7 +11,7 @@ function(data, name, dest, lat.lon, console.output = TRUE, overwrite=TRUE) {
 		name <- gsub(" ", "_", name)
 		if(missing(lat.lon)) lat.lon <- c(1,2)
 		if(console.output) {
-		    json <- dfToGeoJSONConsole(data, name, lat.lon)
+		    json <- dfToGeoJSONConsole(data, lat.lon)
 		} else {
 		    path <- dfToGeoJSON(data, name, dest, lat.lon, overwrite)
 		}
@@ -27,7 +27,7 @@ function(data, name, dest, lat.lon, console.output = TRUE, overwrite=TRUE) {
 		if(missing(name)) name <- deparse(substitute(data))
 		name <- gsub(" ", "_", name)
 		if(console.output) {
-		    json <- spToGeoJSONConsole(data, class(data)[1], name)
+		    json <- spToGeoJSONConsole(data)
 		} else {
 		    path <- spToGeoJSON(data, class(data)[1], name, dest, overwrite)
 		}
