@@ -74,13 +74,13 @@ spToGeoJSONConsole <- function(data, class, name) {
 				for(l in 1:f.len[f]) {
 					ln <- paste0('[', sp::coordinates(data@lines[[f]])[[l]][1,1], ',', sp::coordinates(data@lines[[f]])[[l]][1,2], ']')
 					for(i in 2:length(sp::coordinates(data@lines[[f]])[[l]][,1])) ln <- append(ln, paste0('[', sp::coordinates(data@lines[[f]])[[l]][i,1], ',', sp::coordinates(data@lines[[f]])[[l]][i,2], ']'))
-					ln <- paste('[', paste(ln, collapse=', '), ']')
+					ln <- paste0('[', paste(ln, collapse=','), ']')
 					if(is.null(coord)) coord <- ln
 					else coord <- append(coord, ln)
 				}
 				coord <- paste(coord, collapse=',')
 			}
-			json <- append(json, (paste('"coordinates":[', coord, ']')))
+			json <- append(json, (paste0('"coordinates":[', coord, ']')))
 			json <- append(json, ('}'))
 
 			if(f==num.f) json <- append(json, ('}'))
@@ -115,7 +115,7 @@ spToGeoJSONConsole <- function(data, class, name) {
 				coord.raw <- slot(slot(slot(data, 'polygons')[[f]], 'Polygons')[[1]], 'coords')
 				coord <- paste0('[', coord.raw[1,1], ',', coord.raw[1,2], ']')
 				for(i in 2:length(coord.raw[,1])) coord <- append(coord, paste0('[', coord.raw[i,1], ',', coord.raw[i,2], ']'))
-				coord <- paste('[', paste(coord, collapse=', '), ']')
+				coord <- paste0('[', paste(coord, collapse=','), ']')
 			} else {
 				hole <- sapply(slot(slot(data, 'polygons')[[f]], 'Polygons'), function(x) slot(x, 'hole'))
 				if(length(hole[hole==TRUE])==0) {	# MultiPolygon without holes
@@ -125,11 +125,11 @@ spToGeoJSONConsole <- function(data, class, name) {
 					for(p in 1:length(coord.raw)) {
 						coord.p <- paste0('[', coord.raw[[p]][1,1], ',', coord.raw[[p]][1,2], ']')
 						for(i in 2:length(coord.raw[[p]][,1])) coord.p <- append(coord.p, paste0('[', coord.raw[[p]][i,1], ',', coord.raw[[p]][i,2], ']'))
-						coord.p <- paste('[', paste(coord.p, collapse=','), ']')
+						coord.p <- paste0('[', paste(coord.p, collapse=','), ']')
 						if(is.null(coord)) coord <- coord.p
 						else coord <- append(coord, coord.p)
 					}
-					coord <- paste('[', paste(coord, collapse=','), ']')
+					coord <- paste0('[', paste(coord, collapse=','), ']')
 				} else {
 					if(length(hole[hole==FALSE])==1) {	# SinglePolygon with hole(s)
 						json <- append(json, ('"type":"Polygon",'))
@@ -137,12 +137,12 @@ spToGeoJSONConsole <- function(data, class, name) {
 						pol <- which(hole==FALSE)
 						coord <- paste0('[', coord.raw[[pol]][1,1], ',', coord.raw[[pol]][1,2], ']')
 						for(i in 2:length(coord.raw[[pol]][,1])) coord <- append(coord, paste0('[', coord.raw[[pol]][i,1], ',', coord.raw[[pol]][i,2], ']'))
-						coord <- paste('[', paste(coord, collapse=','), ']')
+						coord <- paste0('[', paste(coord, collapse=','), ']')
 						coord.raw[[pol]] <- NULL
 						for(p in 1:length(coord.raw)) {
 							coord.h <- paste0('[', coord.raw[[p]][1,1], ',', coord.raw[[p]][1,2], ']')
 							for(i in 2:length(coord.raw[[p]][,1])) coord.h <- append(coord.h, paste0('[', coord.raw[[p]][i,1], ',', coord.raw[[p]][i,2], ']'))
-							coord.h <- paste('[', paste(coord.h, collapse=','), ']')
+							coord.h <- paste0('[', paste(coord.h, collapse=','), ']')
 							coord <- append(coord, coord.h)
 						}
 						coord <- paste(coord, collapse=',')
@@ -166,7 +166,7 @@ spToGeoJSONConsole <- function(data, class, name) {
 						for(p in 1:length(pol)) {
 							coord.p <- paste0('[', coord.raw[[pol[p]]][1,1], ',', coord.raw[[pol[p]]][1,2], ']')
 							for(i in 2:length(coord.raw[[pol[p]]][,1])) coord.p <- append(coord.p, paste0('[', coord.raw[[pol[p]]][i,1], ',', coord.raw[[pol[p]]][i,2], ']'))
-							coord.p <- paste('[', paste(coord.p, collapse=','), ']')
+							coord.p <- paste0('[', paste(coord.p, collapse=','), ']')
 
 							idx <- which(hol.idx==pol[p])
 							if(length(idx)>0) {
@@ -174,7 +174,7 @@ spToGeoJSONConsole <- function(data, class, name) {
 								for(i in 1:length(idx)) {
 									coord.h <- paste0('[', coord.raw[[hol[i]]][1,1], ',', coord.raw[[hol[i]]][1,2], ']')
 									for(j in 2:length(coord.raw[[hol[i]]][,1])) coord.h <- append(coord.h, paste0('[', coord.raw[[hol[i]]][j,1], ',', coord.raw[[hol[i]]][j,2], ']'))
-									coord.h <- paste('[', paste(coord.h, collapse=','), ']')
+									coord.h <- paste0('[', paste(coord.h, collapse=','), ']')
 									if(is.null(coord.hs)) coord.hs <- coord.h
 									else coord.hs <- append(coord.hs, coord.h)
 								}
@@ -183,11 +183,11 @@ spToGeoJSONConsole <- function(data, class, name) {
 							if(is.null(coord)) coord <- coord.p
 							else coord <- append(coord, coord.p)
 						}
-						coord <- paste('[', paste(coord, collapse='],['), ']')
+						coord <- paste0('[', paste(coord, collapse='],['), ']')
 					}
 				}
 			}
-			json <- append(json, (paste('"coordinates":[', coord, ']')))
+			json <- append(json, (paste0('"coordinates":[', coord, ']')))
 			json <- append(json, ('}'))
 
 			if(f==num.f) json <- append(json, ('}'))
