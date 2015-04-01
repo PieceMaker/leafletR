@@ -10,7 +10,7 @@ dfToGeoJSONConsole <- function(data, name, lat.lon) {
 	json <- c()
 
 	# heading
-	cat('{', file=path, sep='')
+	json <- append(json, '{')
 	json <- append(json, '"type":"FeatureCollection",')
 	json <- append(json, '"features":[')
 
