@@ -1,5 +1,5 @@
 toGeoJSON <-
-function(data, name, dest, lat.lon, overwrite=TRUE) {
+function(data, name, dest, lat.lon, console.output = TRUE, overwrite=TRUE) {
 	if(missing(data)) stop("'data' is mandatory")
 	if(missing(dest)) dest <- getwd()
 	dest <- gsub("\\\\", "/", dest)
@@ -10,15 +10,27 @@ function(data, name, dest, lat.lon, overwrite=TRUE) {
 		if(missing(name)) name <- deparse(substitute(data))
 		name <- gsub(" ", "_", name)
 		if(missing(lat.lon)) lat.lon <- c(1,2)
-		path <- dfToGeoJSON(data, name, dest, lat.lon, overwrite)
+		if(console.output) {
+		    json <- dfToGeoJSONConsole(data, name, lat.lon)
+		} else {
+		    path <- dfToGeoJSON(data, name, dest, lat.lon, overwrite)
+		}
 	} else if(class(data)=="character") {
 		if(missing(name)) name <- paste(head(strsplit(tail(strsplit(data, "/")[[1]], 1), "[.]")[[1]], -1), collapse=".")
 		name <- gsub(" ", "_", name)
-		path <- fileToGeoJSON(data, name, dest, overwrite)
+        if(console.output) {
+            stop("Console output has not been implemented for data of class 'character'")
+        } else {
+            path <- fileToGeoJSON(data, name, dest, overwrite)
+        }
 	} else if(class(data)[1]=="SpatialPoints" || class(data)[1]=="SpatialPointsDataFrame" || class(data)[1]=="SpatialLines" || class(data)[1]=="SpatialLinesDataFrame" || class(data)[1]=="SpatialPolygons" || class(data)[1]=="SpatialPolygonsDataFrame") {
 		if(missing(name)) name <- deparse(substitute(data))
 		name <- gsub(" ", "_", name)
-		path <- spToGeoJSON(data, class(data)[1], name, dest, overwrite)
+		if(console.output) {
+		    json <- spToGeoJSONConsole(data, class(data)[1], name)
+		} else {
+		    path <- spToGeoJSON(data, class(data)[1], name, dest, overwrite)
+		}
 	} else {
 		stop("Type of data not supported")
 	}
@@ -26,5 +38,7 @@ function(data, name, dest, lat.lon, overwrite=TRUE) {
 	if(!is.null(path)) {
 		message("\nFile saved under ", path)
 		invisible(path)
+	} else {
+	    return(json)
 	}
 }
