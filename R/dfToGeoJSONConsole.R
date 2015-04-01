@@ -50,5 +50,7 @@ dfToGeoJSONConsole <- function(data, name, lat.lon) {
 	json <- append(json, ']')
 	json <- append(json, '}')
 
+	json <- paste(json, collapse = '')
+
 	return(json)
 }
